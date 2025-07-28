@@ -1,0 +1,77 @@
+// src/components/AnimeCard.tsx
+import Link from 'next/link';
+import Image from 'next/image';
+import { PlayCircle, BookmarkPlus } from 'lucide-react';
+
+interface AnimeCardProps {
+  slug: string;
+  title: string;
+  coverImage: string | null;
+  type: string | null; // Adicionamos a propriedade type
+}
+
+const AnimeCard = ({ slug, title, coverImage, type }: AnimeCardProps) => {
+  const decodedSlug = decodeURIComponent(slug);
+
+  return (
+    // O `group` é a chave para o efeito de hover
+    <div className="group relative aspect-[2/3] flex-shrink-0 snap-start overflow-hidden rounded-md">
+      {/* Imagem de fundo e link principal */}
+      <Link href={`/anime/${decodedSlug}`} className="block h-full w-full">
+        {coverImage ? (
+          <Image
+            src={coverImage}
+            alt={`Cover for ${title}`}
+            fill
+            sizes="20vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-gray-800">
+            <span className="text-sm text-gray-500">No Image</span>
+          </div>
+        )}
+      </Link>
+      
+      {/* Conteúdo que aparece na parte de baixo do card (visível sempre) */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2 pt-4">
+        <h3 className="truncate text-sm font-bold text-white">{title}</h3>
+        <p className="text-xs text-gray-300">{type || 'Sub | Dub'}</p>
+      </div>
+
+      {/* Card de Hover (invisível por padrão, aparece com o hover) */}
+      <div className="absolute inset-0 z-10 flex flex-col justify-between overflow-hidden rounded-md border-2 border-transparent bg-gray-900/80 p-4 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100 group-hover:border-white">
+        <div>
+          <h3 className="text-lg font-bold text-white">{title}</h3>
+          <div className="mt-2 flex items-center gap-2 text-xs">
+            {/* Dados estáticos para simular o design, podemos tornar dinâmicos no futuro */}
+            <span className="font-semibold">1 Temporada</span>
+            <span className="h-1 w-1 rounded-full bg-gray-400"></span>
+            <span className="font-semibold">12 Episódios</span>
+          </div>
+          <p className="mt-2 text-xs text-gray-300 line-clamp-4">
+            {/* Descrição estática, pois a API de listagem não a fornece */}
+            Click to see the full description for this series and start watching now on GogoSugoi.
+          </p>
+        </div>
+        <div className="flex items-center justify-between">
+          <Link 
+            href={`/anime/${decodedSlug}`} 
+            className="rounded-full bg-orange-500 p-2 text-black transition-transform hover:scale-110"
+            aria-label={`Watch ${title}`}
+          >
+            <PlayCircle size={24} fill="black" />
+          </Link>
+          <button 
+            className="rounded-full bg-white/20 p-2 text-white transition-transform hover:scale-110"
+            aria-label={`Add ${title} to watchlist`}
+          >
+            <BookmarkPlus size={24} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AnimeCard;
