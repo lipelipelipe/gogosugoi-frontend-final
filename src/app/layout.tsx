@@ -1,4 +1,4 @@
-// src/app/layout.tsx (VERSÃO FINAL COM OTIMIZAÇÕES DE SEO)
+// src/app/layout.tsx (VERSÃO FINAL COM VERIFICAÇÃO DO GOOGLE)
 
 import { Inter, Bangers } from 'next/font/google';
 import './globals.css';
@@ -24,23 +24,25 @@ const bangers = Bangers({
 
 
 // =============================================================================
-// METADADOS PADRÃO DO SITE (COM REFORÇO DE SEO)
+// METADADOS PADRÃO DO SITE (COM VERIFICAÇÃO DO GOOGLE)
 // =============================================================================
 export const metadata = {
   title: 'GogoSugoi - Watch Anime Online',
   description: 'Your number one source for watching anime online, free and in high quality.',
-  // <-- REFORÇO DE SEO: Adicionamos o objeto 'robots' para dar instruções explícitas
-  // aos crawlers dos mecanismos de busca.
   robots: {
-    index: true, // Permite que a página seja indexada.
-    follow: true, // Permite que os links na página sejam seguidos.
-    googleBot: { // Instruções específicas para o GoogleBot.
+    index: true,
+    follow: true,
+    googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1, // Permite que o Google mostre prévias de vídeo de qualquer duração.
-      'max-image-preview': 'large', // Permite que o Google mostre imagens grandes nas prévias.
-      'max-snippet': -1, // Não há limite para o tamanho do snippet de texto que o Google pode mostrar.
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
+  },
+  // <<< SUA VERIFICAÇÃO FOI ADICIONADA AQUI >>>
+  verification: {
+    google: 'rsyZyeUXnI9FwV4mMCULSq5UWqT0aaIzdGvyYF8q1Dk',
   },
 }
 
@@ -73,7 +75,7 @@ export default async function RootLayout({
         
         <Footer />
 
-        {/* Componente de Analytics da Vercel para o nosso Intel Dashboard */}
+        {/* Componente de Analytics da Vercel */}
         <Analytics />
         
       </body>
